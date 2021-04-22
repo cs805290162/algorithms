@@ -36,7 +36,7 @@ int KMP(const string str, const string pattern)
     int j = 0;
 
     while (i < str.size() && j < pattern.size()) {
-        if (j == -1 || str[i] == pattern[i]) {
+        if (j == -1 || str[i] == pattern[j]) {
             ++i;
             ++j;
         } else {
