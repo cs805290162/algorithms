@@ -14,7 +14,7 @@ void getNext(const string pattern, vector<int> &next)
     next[0] = -1;
     int i = 0, j = -1;
 
-    while (i < pattern.size()) {
+    while (i < pattern.size() - 1) {
         if (j == -1 || pattern[i] == pattern[j]) {
             ++i;
             ++j;
@@ -35,7 +35,7 @@ int KMP(const string str, const string pattern)
     int i = 0;
     int j = 0;
 
-    while (i < str.size() && j < pattern.size()) {
+    while (i < str.size() && j < (int)pattern.size()) {
         if (j == -1 || str[i] == pattern[j]) {
             ++i;
             ++j;
