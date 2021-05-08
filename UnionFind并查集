@@ -1,0 +1,57 @@
+#include<iostream>
+using namespace std;
+// https://blog.nowcoder.net/n/2dc188db2f58433197e03de6dc2cb16e
+// 并查集 属于森林
+// 优化后：按元素合并，按秩（当前树的高度，总是把较小秩树根指向较大秩树根）合并，路径压缩
+
+class UnionFind {
+private:
+    int* parent;  // 记录连通分量
+    int* rank; //秩
+    int count; // 连通分量数
+
+public:
+    UnionFind(int maxsize): parent(new int[maxsize]), rank(new int[maxsize]), count(maxsize) 
+    {  // 初始化，每个节点都是一棵树
+        for (int i = 0; i < maxsize; i++) {
+            parent[i] = i;
+            rank[i] = 0;  
+        }
+    }
+
+    ~UnionFind()
+    {
+        delete[] parent;
+        delete[] rank;
+    }
+
+    int find(int p)   // 递归查找
+    {
+        if(parent[p] != p) {
+            p = find(parent[p]);
+        }
+        return p;
+    }
+
+    bool isConnected(int a, int b) // 查询是否连通
+    {
+        return find(a) == find(b);
+    }
+
+    // 按秩合并,小树接大树
+    void union_elem(int a, int b) 
+    {
+        int aroot = find(a);
+        int broot = find(b);
+        if (aroot != broot) {
+            if (rank[aroot] > rank[broot]) {
+                parent[broot] = aroot;
+                rank[aroot] += rank[broot];
+            } else {
+                parent[aroot] = broot;
+                rank[broot] += rank[aroot];
+            }
+            count--;
+        }
+    }
+}
